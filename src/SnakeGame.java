@@ -47,7 +47,6 @@ public class SnakeGame extends Applet implements Runnable, KeyListener {
 	
 	public void run() {
 		for(;;) {
-			
 			snake.move();
 			this.repaint();
 			try { Thread.sleep(40); } catch (InterruptedException e) { e.printStackTrace(); }
@@ -61,26 +60,26 @@ public class SnakeGame extends Applet implements Runnable, KeyListener {
 				if(snake.getYDirectionOfMovement() != 1) {
 					snake.setYDirectionOfMovement(-1);
 					snake.setXDirectionOfMovement(0);
-					break;
 				}
+				break;
 			case KeyEvent.VK_DOWN:
 				if(snake.getYDirectionOfMovement() != -1) {
 					snake.setYDirectionOfMovement(1);
 					snake.setXDirectionOfMovement(0);
-					break;
 				}
+				break;
 			case KeyEvent.VK_LEFT:
 				if(snake.getXDirectionOfMovement() != 1) {
 					snake.setXDirectionOfMovement(-1);
 					snake.setYDirectionOfMovement(0);
-					break;
 				}
+				break;
 			case KeyEvent.VK_RIGHT:
-				if(snake.getXDirectionOfMovement() != 1) {
-					snake.setXDirectionOfMovement(-1);
+				if(snake.getXDirectionOfMovement() != -1) {
+					snake.setXDirectionOfMovement(1);
 					snake.setYDirectionOfMovement(0);
-					break;
 				}
+				break;
 		}
 	}
 

@@ -32,23 +32,24 @@ public class Snake {
 		//Colour of the snake
 		g.setColor(Color.GREEN);
 		
-		for(Point p : snakePoints) {
-			g.fillRect(p.getX(), p.getY(), SIZE_OF_SNAKES_POINT, SIZE_OF_SNAKES_POINT);
+		for(Point point : snakePoints) {
+			g.fillRect(point.getX(), point.getY(), SIZE_OF_SNAKES_POINT, SIZE_OF_SNAKES_POINT);
 		}
 	}
 	
 	public void move() {
 		if(isMoving) {
 			Point currentPositionOfHead = snakePoints.get(0);
-			Point currentPositionOfLastPoint = snakePoints.get(snakePoints.size() - 1);
+			//Point currentPositionOfLastPoint = snakePoints.get(snakePoints.size() - 1);
 			//Move the head
 			Point newPositionOfHead = new Point(currentPositionOfHead.getX() + xDirectionOfMovement * SIZE_OF_SNAKES_POINT,
-					currentPositionOfLastPoint.getY() + yDirectionOfMovement * SIZE_OF_SNAKES_POINT);
-			snakePoints.set(0, newPositionOfHead);
+					currentPositionOfHead.getY() + yDirectionOfMovement * SIZE_OF_SNAKES_POINT);
 			//Move the body
 			for(int i = snakePoints.size() - 1; i >= 1; i--) {
 				snakePoints.set(i, snakePoints.get(i -1 ));
 			}
+			snakePoints.set(0, newPositionOfHead);
+			//isMoving = false;
 		}
 
 	}
