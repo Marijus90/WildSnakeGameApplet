@@ -22,7 +22,7 @@ public class Snake {
 		
 		//Initialising the snake
 		snakePoints.add(new Point (START_POSITION_X, START_POSITION_Y));
-		for(int i = 0; i < INITIAL_SNAKE_LENGTH; i++) {
+		for(int i = 1; i < INITIAL_SNAKE_LENGTH; i++) {
 			snakePoints.add(new Point(START_POSITION_X - i * SIZE_OF_SNAKES_POINT, START_POSITION_Y));
 		}
 	
@@ -51,7 +51,17 @@ public class Snake {
 			snakePoints.set(0, newPositionOfHead);
 			//isMoving = false;
 		}
-
+	}
+	
+	public boolean snakeCollisionCheck() {
+		int xPosition = this.getXSnakePosition();
+		int yPosition = this.getYSnakePosition();
+		for(int i = 1; i < snakePoints.size(); i++) {
+			if(snakePoints.get(i).getX() == xPosition && snakePoints.get(i).getY() == yPosition) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public int getXDirectionOfMovement() {
@@ -76,6 +86,10 @@ public class Snake {
 	
 	public int getYSnakePosition() {
 		return snakePoints.get(0).getY();
+	}
+	
+	public int getSizeOfSnakesPoint() {
+		return SIZE_OF_SNAKES_POINT;
 	}
 	
 	public boolean getIsMoving() {

@@ -10,11 +10,13 @@ public class SnakeGame extends Applet implements Runnable, KeyListener {
 
 	public final int WINDOW_WIDTH_X = 600;
 	public final int WINDOW_HEIGHT_Y = 600;
+	public final int GAME_SPEED = 40; //The lower - the quicker
 	
 	private Graphics gfx;
 	private Image img;
 	Thread thread;
 	Snake snake;
+	Boolean gameOver;
 
 	
 	public void init() {
@@ -22,6 +24,7 @@ public class SnakeGame extends Applet implements Runnable, KeyListener {
 		img = createImage(WINDOW_WIDTH_X, WINDOW_HEIGHT_Y);
 		gfx = img.getGraphics();
 		this.addKeyListener(this);
+		gameOver = false;
 		snake = new Snake();
 		thread = new Thread(this);
 		thread.start();
@@ -31,8 +34,12 @@ public class SnakeGame extends Applet implements Runnable, KeyListener {
 		//Background colour
 		gfx.setColor(Color.DARK_GRAY);
 		gfx.fillRect(0, 0, WINDOW_WIDTH_X, WINDOW_HEIGHT_Y);
-		snake.draw(gfx);
-		
+		if(!gameOver) {
+			snake.draw(gfx);
+		} else {
+			gfx.setColor(Color.RED);
+			gfx.drawString("Game Over", (WINDOW_WIDTH_X/2), (WINDOW_HEIGHT_Y/2));
+		}
 		g.drawImage(img, 0, 0, null);
 	}
 	
@@ -47,9 +54,23 @@ public class SnakeGame extends Applet implements Runnable, KeyListener {
 	
 	public void run() {
 		for(;;) {
-			snake.move();
-			this.repaint();
-			try { Thread.sleep(40); } catch (InterruptedException e) { e.printStackTrace(); }
+			if(!gameOver) {
+				snake.move();
+				checkGameOver();
+			}
+			repaint();
+			//this.repaint();
+			try { Thread.sleep(GAME_SPEED); } catch (InterruptedException e) { e.printStackTrace(); }
+		}
+	}
+	
+	public void checkGameOver() {
+		if(snake.getXSnakePosition() < 0 || snake.getXSnakePosition() > WINDOW_WIDTH_X - snake.getSizeOfSnakesPoint()) {
+			gameOver = true;
+		} else if (snake.getYSnakePosition() < 0 || snake.getYSnakePosition() > WINDOW_HEIGHT_Y - snake.getSizeOfSnakesPoint()) {
+			gameOver = true;
+		} else if (snake.snakeCollisionCheck()) {
+			gameOver = true;
 		}
 	}
 
